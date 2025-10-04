@@ -52,6 +52,21 @@ Important
 - Refresh token is stored securely via the keyring crate (Windows Credential Manager).
 - Metadata cache uses SQLite (bundled) with FTS5 for fast local search.
 - Album art only fetched for the currently playing track when enabled.
+- How it works
+
+    Client ID: Identifies the app to Spotify. It does not tie users together or route playback through your account.
+    Per-user login: Each person logs in with their own Spotify account via OAuth (PKCE). They get their own access/refresh tokens on their own machine.
+    Per-account devices: Playback happens on the logged-in user’s account and device (e.g., their “Lightify” device). Your actions affect only your account, not others.
+
+When could people affect each other?
+
+    If two people use the same Spotify account (shared credentials), Spotify will treat it as one account: playback can switch devices and interrupt each other. This is a Spotify rule, independent of the Client ID.
+    Rate limits: Using one shared Client ID means API rate limits are shared across users of that app. In high usage, some requests could get throttled (temporary errors), but it won’t cause cross-account playback or show your tracks to others.
+
+Bottom line
+
+    Different users with different Spotify accounts can use the app at the same time without interrupting each other, even with the same Client ID embedded in the app.
+
 
 ## Roadmap
 - System media keys integration (Windows-first), then macOS/Linux media APIs
